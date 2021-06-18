@@ -1,20 +1,146 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      SuperMarket <span *ngIf="connected"> - Hello {{connecterUserEmail}}</span>
     </ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="openModal()">
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" *ngIf="connected">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Inventory Management</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+            <ion-grid>
+              <ion-row>
+                <ion-col>Product Name</ion-col><ion-col>Description</ion-col><ion-col>Quantity</ion-col>
+              </ion-row>
+              <ion-row *ngFor="let product of productsInventory | async" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                <ion-col>{{ product.Name | json }}</ion-col>
+                <ion-col>{{ product.Desc | json }}</ion-col>
+                <ion-col>{{ product.Quantity | json }}</ion-col>
+              </ion-row>
+            </ion-grid>
+            <br>
+            <ion-button expand="block" (click)="addProductModal()">Add product to inventory</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Expiration Dates Alerts</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <div>{{todayDate | date:'yyyy-MM-dd'}}</div>
+            <ion-grid>
+              <ion-row>
+                <ion-col>Product Name</ion-col><ion-col>Quantity</ion-col><ion-col>Expiration Date</ion-col>
+              </ion-row>
+              <ion-row style="background-color: gray;"><ion-col></ion-col></ion-row><br>
+
+              <ion-button color="danger" (click)="deleteAll()">Reset inventory</ion-button><br><br>
+
+              <div *ngFor="let i of getTransactionList | async">
+                <ion-row (click)="modifyProductModal()" *ngIf="i.expirationDate < returnTodayDate()" [ngStyle]="i.expirationDate < returnTodayDate() && {'background-color': 'red', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                  <ion-col>{{ i.Name | json }}</ion-col>
+                  <ion-col>{{ i.Quantity | json }}</ion-col>
+                  <ion-col>{{ i.expirationDate | json }}</ion-col>
+                  <!-- <p><strong>Item Key: </strong>{{i | json}}</p> -->
+
+                </ion-row>
+              </div>
+
+              <div *ngFor="let i of getTransactionList | async">
+                <div *ngIf="i.expirationDate > returnTodayDate()">
+                  <ion-row (click)="modifyProductModal()" *ngIf="i.expirationDate <= returnInSevenDay()" [ngStyle]="i.expirationDate <= returnInSevenDay() && {'background-color': 'orange', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                    <ion-col>{{ i.Name | json }}</ion-col>
+                    <ion-col>{{ i.Quantity | json }}</ion-col>
+                    <ion-col>{{ i.expirationDate | json }}</ion-col>
+                  </ion-row>
+                </div>                
+              </div>
+
+              <div *ngFor="let i of getTransactionList | async">
+                <ion-row (click)="modifyProductModal()" *ngIf="i.expirationDate > returnInSevenDay()" [ngStyle]="i.expirationDate > returnTodayDate() && {'background-color': 'green', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                  <ion-col>{{ i.Name | json }}</ion-col>
+                  <ion-col>{{ i.Quantity | json }}</ion-col>
+                  <ion-col>{{ i.expirationDate | json }}</ion-col>
+                </ion-row>
+              </div>
+            </ion-grid>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Order Management</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            
+            
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi veritatis beatae illo autem iste, eos corrupti vero architecto obcaecati.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Product Storage</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptas molestiae quae voluptatem iusto nulla explicabo est dicta eius impedit?
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Shelves Management</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos voluptas eligendi odio beatae ipsum laudantium temporibus error rem maiores tempora?
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Order Management</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint cumque tenetur soluta perspiciatis amet consequatur, inventore optio numquam alias non.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+ 
 </ion-content>

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>My Account</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card *ngIf="!connected">
+    <ion-card-header>
+      <ion-card-title>Connect to Market</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Mail :</ion-label>
+        <ion-input type="email" [(ngModel)]="dataUser.email" placeholder="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Password :</ion-label>
+        <ion-input type="password" [(ngModel)]="dataUser.password" placeholder="text"></ion-input>
+      </ion-item>
+      <br>
+      <ion-button expand="block" (click)="login()">Login</ion-button>
+      <br>
+      <ion-button color="tertiary" expand="block" (click)="signUp()">Sign Up</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="connected">
+    <ion-card-header>
+      <ion-card-title>Hello {{connecterUserEmail}}</ion-card-title>
+      <ion-card-subtitle>Your UID : {{connectedUserUid}}</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <br><ion-button color="danger" expand="block" (click)="logout()">Logout</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

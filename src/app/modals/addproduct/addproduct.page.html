@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Add Product</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label>Name :</ion-label>
+    <ion-input type="text" [(ngModel)]="productName" placeholder=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Description :</ion-label>
+    <ion-input type="text" [(ngModel)]="productDesc" placeholder=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Quantity :</ion-label>
+    <ion-input type="number" [(ngModel)]="productQuantity" placeholder=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Expiration date :</ion-label>
+    <input [(ngModel)]="expirationDate" type="date" id="start" name="trip-start" min="2021-01-01">
+  </ion-item>
+  <br>
+  <ion-button expand="block" (click)="addProduct()">Save</ion-button>
+
+</ion-content>
+
