@@ -23,10 +23,11 @@
         
           <ion-card-content>
             <ion-button expand="block" (click)="addProductModal()">Add product to inventory</ion-button><br>
-            <ion-grid>
-              <ion-row  style="margin-bottom:10px;background-color: rgb(170, 170, 170);padding: 10px;border-radius: 10px;color:black;">
-                <ion-col>Product Name</ion-col><ion-col>Description</ion-col><ion-col>Quantity</ion-col>
-              </ion-row>
+            <ion-row  style="margin-bottom:10px;background-color: rgb(170, 170, 170);padding: 10px;border-radius: 10px;color:black;">
+              <ion-col>Product Name</ion-col><ion-col>Description</ion-col><ion-col>Quantity</ion-col>
+            </ion-row>
+            <ion-grid style="overflow-x: hidden;overflow-y:scroll;height: 500px;">
+              
               <ion-row  (click)="modifyProductModal(product)"  *ngFor="let product of productsInventory | async" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                 <ion-col>{{ product.Name | json }}</ion-col>
                 <ion-col>{{ product.Desc | json }}</ion-col>
