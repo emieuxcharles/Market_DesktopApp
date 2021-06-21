@@ -15,6 +15,7 @@ export class OrderProductPage implements OnInit {
 
   productsList:string;
   orderDate;
+  productorName: string;
 
   modalTitle: string;
   modelId: number;
@@ -31,11 +32,13 @@ export class OrderProductPage implements OnInit {
   order() {
     this.afDB.list('Orders').push({
       products: this.productsList,
-      orderDate: this.orderDate
+      orderDate: this.orderDate,
+      productorName: this.productorName
     });
 
     this.productsList = '';
     this.orderDate = '';
+    this.productorName = '';
     this.closeModal();
   }
 
