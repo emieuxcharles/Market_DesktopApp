@@ -27,7 +27,7 @@
               <ion-row>
                 <ion-col>Product Name</ion-col><ion-col>Description</ion-col><ion-col>Quantity</ion-col>
               </ion-row>
-              <ion-row *ngFor="let product of productsInventory | async" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+              <ion-row  (click)="modifyProductModal(product)"  *ngFor="let product of productsInventory | async" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                 <ion-col>{{ product.Name | json }}</ion-col>
                 <ion-col>{{ product.Desc | json }}</ion-col>
                 <ion-col>{{ product.Quantity | json }}</ion-col>
@@ -56,7 +56,7 @@
               <ion-button color="danger" (click)="deleteAll()">Reset inventory</ion-button><br><br>
 
               <div *ngFor="let i of getTransactionList | async">
-                <ion-row (click)="modifyProductModal()" *ngIf="i.expirationDate < returnTodayDate()" [ngStyle]="i.expirationDate < returnTodayDate() && {'background-color': 'red', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                <ion-row (click)="modifyProductModal(i)" *ngIf="i.expirationDate < returnTodayDate()" [ngStyle]="i.expirationDate < returnTodayDate() && {'background-color': 'red', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                   <ion-col>{{ i.Name | json }}</ion-col>
                   <ion-col>{{ i.Quantity | json }}</ion-col>
                   <ion-col>{{ i.expirationDate | json }}</ion-col>
@@ -67,7 +67,7 @@
 
               <div *ngFor="let i of getTransactionList | async">
                 <div *ngIf="i.expirationDate > returnTodayDate()">
-                  <ion-row (click)="modifyProductModal()" *ngIf="i.expirationDate <= returnInSevenDay()" [ngStyle]="i.expirationDate <= returnInSevenDay() && {'background-color': 'orange', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                  <ion-row (click)="modifyProductModal(i)" *ngIf="i.expirationDate <= returnInSevenDay()" [ngStyle]="i.expirationDate <= returnInSevenDay() && {'background-color': 'orange', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                     <ion-col>{{ i.Name | json }}</ion-col>
                     <ion-col>{{ i.Quantity | json }}</ion-col>
                     <ion-col>{{ i.expirationDate | json }}</ion-col>
@@ -76,7 +76,7 @@
               </div>
 
               <div *ngFor="let i of getTransactionList | async">
-                <ion-row (click)="modifyProductModal()" *ngIf="i.expirationDate > returnInSevenDay()" [ngStyle]="i.expirationDate > returnTodayDate() && {'background-color': 'green', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                <ion-row (click)="modifyProductModal(i)" *ngIf="i.expirationDate > returnInSevenDay()" [ngStyle]="i.expirationDate > returnTodayDate() && {'background-color': 'green', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                   <ion-col>{{ i.Name | json }}</ion-col>
                   <ion-col>{{ i.Quantity | json }}</ion-col>
                   <ion-col>{{ i.expirationDate | json }}</ion-col>
@@ -95,9 +95,17 @@
           </ion-card-header>
         
           <ion-card-content>
+            <ion-row><ion-button (click)="orderProductModal()">Order Product</ion-button></ion-row>
+            <ion-row style="margin-top:20px">Last Orders</ion-row>
+            <ion-row>
+              <ion-col>Order Date</ion-col><ion-col>Products</ion-col>
+            </ion-row>
+            <ion-row  *ngFor="let order of ordersInventory | async" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+              <ion-col>{{ order.orderDate | json }}</ion-col>
+              <ion-col>{{ order.products | json }}</ion-col>
+            </ion-row>
             
             
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi veritatis beatae illo autem iste, eos corrupti vero architecto obcaecati.
           </ion-card-content>
         </ion-card>
       </ion-col>

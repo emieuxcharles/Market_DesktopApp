@@ -20,9 +20,13 @@ const routes: Routes = [
     loadChildren: () => import('./modals/addproduct/addproduct.module').then( m => m.AddproductPageModule)
   },
   {
-    path: 'modify-product',
+    path: 'modify-product/:id',
     loadChildren: () => import('./modals/modify-product/modify-product.module').then( m => m.ModifyProductPageModule)
+  },  {
+    path: 'order-product',
+    loadChildren: () => import('./modals/order-product/order-product.module').then( m => m.OrderProductPageModule)
   },
+
 ];
 
 @NgModule({

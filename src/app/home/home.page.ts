@@ -5,6 +5,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AddproductPage } from 'src/app/modals/addproduct/addproduct.page'
 import { ModifyProductPage } from 'src/app/modals/modify-product/modify-product.page'
+import { OrderProductPage } from 'src/app/modals/order-product/order-product.page'
 import { Observable } from 'rxjs';
 
 ModifyProductPage
@@ -25,6 +26,8 @@ export class HomePage {
   connected:boolean;
 
   productsInventory: Observable<any[]>;
+
+  ordersInventory: Observable<any[]>;
 
   getTransactionList: Observable<any[]>;
 
@@ -48,6 +51,7 @@ export class HomePage {
     });
 
     this.productsInventory = afDB.list('Products').valueChanges();
+    this.ordersInventory = afDB.list('Orders').valueChanges();
 
 
     let transactionTemp = this.afDB.list('Products');
@@ -108,13 +112,15 @@ export class HomePage {
     return a;
   }
 
-  async modifyProductModal(){
+  async modifyProductModal(i){
     const modal = await this.modalController.create({
       component: ModifyProductPage,
       componentProps: {
-        "paramID": 123,
-        "customID": "testtesttesttest",
-        "paramTitle": "Add product title"
+        "productName": i.Name,
+        "productDesc": i.Desc,
+        "productQuantity": i.Quantity,
+        "expirationDate": i.expirationDate,
+        "KEY : ": i.key
       }
     });
 
@@ -126,6 +132,7 @@ export class HomePage {
     });
 
     return await modal.present();
+    
   }
 
   async addProductModal(){
@@ -158,9 +165,25 @@ export class HomePage {
     console.log('clic')
     itemsRef.remove('MYu48fpKUBfOMOsKe6R');
     
-
   }
 
-  
+  async orderProductModal(){
+    const modal = await this.modalController.create({
+      component: OrderProductPage,
+      componentProps: {
+        "paramID": 123,
+        "paramTitle": "title"
+      }
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        this.dataReturned = dataReturned.data;
+        //alert('Modal Sent Data :'+ dataReturned);
+      }
+    });
+
+    return await modal.present();
+  }
 
 }

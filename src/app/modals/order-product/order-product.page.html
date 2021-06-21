@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Order Product</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label>Products :</ion-label>
+    <ion-input type="text" [(ngModel)]="productsList" placeholder=""></ion-input>
+  </ion-item>
+
+  <br>
+  <ion-button expand="block" (click)="order()">Order</ion-button>
+
+</ion-content>
+

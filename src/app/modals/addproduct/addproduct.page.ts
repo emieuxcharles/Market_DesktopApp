@@ -25,7 +25,7 @@ export class AddproductPage implements OnInit {
     this.modalTitle = this.navParams.data.paramTitle;
   }
 
-  addProduct() {
+  order() {
     this.afDB.list('Products').push({
       Name: this.productName,
       Desc: this.productDesc,

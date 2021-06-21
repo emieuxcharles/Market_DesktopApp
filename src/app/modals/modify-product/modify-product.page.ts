@@ -24,7 +24,7 @@ export class ModifyProductPage implements OnInit {
     this.modelId = this.navParams.data.paramID;
     this.modalTitle = this.navParams.data.paramTitle;
 
-    var test = this.navParams.get('customID');
+    var test = this.navParams.get('productName');
     console.log(test);
 
   }
