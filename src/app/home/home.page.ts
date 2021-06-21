@@ -36,6 +36,8 @@ export class HomePage {
   todayDate = new Date();
   inSevenDay = new Date();
 
+  productorName;
+
   day:string;
   constructor(public afDB: AngularFireDatabase, public afAuth: AngularFireAuth, public modalController: ModalController) {
     this.afAuth.authState.subscribe(auth => {
@@ -52,6 +54,8 @@ export class HomePage {
 
     this.productsInventory = afDB.list('Products').valueChanges();
     this.ordersInventory = afDB.list('Orders').valueChanges();
+
+    console.log(this.productsInventory);
 
 
     let transactionTemp = this.afDB.list('Products');
@@ -184,6 +188,13 @@ export class HomePage {
     });
 
     return await modal.present();
+  }
+
+  addProductor(){
+    this.afDB.list('Productors').push({
+      productorName: this.productorName,
+    });
+    this.productorName = '';
   }
 
 }

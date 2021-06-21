@@ -3,7 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { ModalController, NavParams } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import {formatDate} from '@angular/common';
-
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,6 +13,8 @@ import {formatDate} from '@angular/common';
 })
 export class OrderProductPage implements OnInit {
 
+  productorsList: Observable<any[]>;
+
   productsList:string;
   orderDate;
   productorName: string;
@@ -20,8 +22,14 @@ export class OrderProductPage implements OnInit {
   modalTitle: string;
   modelId: number;
 
+  selectedProductor: string = "";
+
   constructor(public afDB: AngularFireDatabase, private modalController: ModalController, private navParams: NavParams, ) {
     this.orderDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+
+    this.productorsList = afDB.list('Productors').valueChanges();
+
+    console.log(this.productorsList);
 
   }
 
@@ -45,6 +53,13 @@ export class OrderProductPage implements OnInit {
   async closeModal() {
     const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss(onClosedData);
+  }
+
+  selectProductor(p){
+    this.selectedProductor = p;
+    console.log(this.selectedProductor);
+    //console.log(p)
+
   }
 
 }
