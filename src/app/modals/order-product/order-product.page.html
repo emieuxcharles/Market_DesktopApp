@@ -15,14 +15,9 @@
     <ion-input type="text" [(ngModel)]="productsList" placeholder=""></ion-input>
   </ion-item>
   <ion-item>
-    <ion-select>
-      <ion-select-option *ngFor="let productor of productorsList | async" value="productor.productorName">{{ productor.productorName | json }}</ion-select-option>
+    <ion-select [(ngModel)]="selectedProd">
+      <ion-select-option *ngFor="let productor of productorsList | async">{{ productor.productorName | json }}</ion-select-option>
     </ion-select>  
-  </ion-item>
- 
-  <ion-item>
-    <ion-label>Productor Name :</ion-label>
-    <ion-input type="text" [(ngModel)]="productorName" placeholder=""></ion-input>
   </ion-item>
 
   <br>

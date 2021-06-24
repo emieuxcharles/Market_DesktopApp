@@ -17,12 +17,13 @@ export class OrderProductPage implements OnInit {
 
   productsList:string;
   orderDate;
-  productorName: string;
 
   modalTitle: string;
   modelId: number;
 
   selectedProductor: string = "";
+
+  selectedProd: string;
 
   constructor(public afDB: AngularFireDatabase, private modalController: ModalController, private navParams: NavParams, ) {
     this.orderDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
@@ -31,8 +32,8 @@ export class OrderProductPage implements OnInit {
 
     console.log(this.productorsList);
 
-  }
 
+  }
 
   ngOnInit() {
   }
@@ -41,12 +42,11 @@ export class OrderProductPage implements OnInit {
     this.afDB.list('Orders').push({
       products: this.productsList,
       orderDate: this.orderDate,
-      productorName: this.productorName
+      productorName: this.selectedProd
     });
 
     this.productsList = '';
     this.orderDate = '';
-    this.productorName = '';
     this.closeModal();
   }
 
