@@ -38,6 +38,8 @@ export class HomePage {
 
   productorName;
 
+  owner;
+
   day:string;
   constructor(public afDB: AngularFireDatabase, public afAuth: AngularFireAuth, public modalController: ModalController) {
     this.afAuth.authState.subscribe(auth => {
@@ -54,6 +56,9 @@ export class HomePage {
 
     this.productsInventory = afDB.list('Products').valueChanges();
     this.ordersInventory = afDB.list('Orders').valueChanges();
+
+    this.owner = afDB.list('Products', ref => ref.orderByChild('owner').equalTo("mail@mail.mail"));
+
 
     console.log(this.productsInventory);
 

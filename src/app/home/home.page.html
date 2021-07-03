@@ -11,14 +11,18 @@
   </ion-toolbar>
 </ion-header>
 
+<style>
+
+</style>
+
 <ion-content [fullscreen]="true" *ngIf="connected">
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <!-- <ion-col>
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle>Card test</ion-card-subtitle>
-            <ion-card-title>Inventory Management</ion-card-title>
+            <ion-card-title>All Inventory Management</ion-card-title>
           </ion-card-header>
         
           <ion-card-content>
@@ -32,11 +36,39 @@
                 <ion-col>{{ product.Name | json }}</ion-col>
                 <ion-col>{{ product.Desc | json }}</ion-col>
                 <ion-col>{{ product.Quantity | json }}</ion-col>
+                <ion-col>{{ product.owner | json }}</ion-col>
               </ion-row>
             </ion-grid>
           </ion-card-content>
         </ion-card>
+      </ion-col> -->
+
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Card test</ion-card-subtitle>
+            <ion-card-title>Inventory Management</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <ion-button expand="block" (click)="addProductModal()">Add product to inventory</ion-button><br>
+            <ion-row  style="margin-bottom:10px;background-color: rgb(170, 170, 170);padding: 10px;border-radius: 10px;color:black;">
+              <ion-col>Product Name</ion-col><ion-col>Description</ion-col><ion-col>Quantity</ion-col>
+            </ion-row>
+            <ion-grid style="overflow-x: hidden;overflow-y:scroll;height: 500px;">
+              <div  *ngFor="let product of productsInventory | async">
+                <ion-row *ngIf="product.owner == connecterUserEmail" (click)="modifyProductModal(product)" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                  <ion-col>{{ product.Name | json }}</ion-col>
+                  <ion-col>{{ product.Desc | json }}</ion-col>
+                  <ion-col>{{ product.Quantity | json }}</ion-col>
+                </ion-row>
+              </div>
+              
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
+
       <ion-col>
         <ion-card>
           <ion-card-header>
@@ -51,24 +83,26 @@
             </ion-row>
             <ion-grid style="overflow-x: hidden;overflow-y:scroll;height: 500px;">
               
-              <div *ngFor="let i of getTransactionList | async">
-                <ion-row (click)="modifyProductModal(i)" *ngIf="i.expirationDate < returnTodayDate()" [ngStyle]="i.expirationDate < returnTodayDate() && {'background-color': 'red', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+              <div *ngFor="let i of getTransactionList | async" >
+                <div *ngIf="i.owner == connecterUserEmail">
+                <ion-row (click)="modifyProductModal(i)" *ngIf="i.expirationDate <= returnTodayDate()" [ngStyle]="i.expirationDate <= returnTodayDate() && {'background-color': 'red', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                   <ion-col>{{ i.Name | json }}</ion-col>
                   <ion-col>{{ i.Quantity | json }}</ion-col>
                   <ion-col>{{ i.expirationDate | json }}</ion-col>
-                  <!-- <p><strong>Item Key: </strong>{{i | json}}</p> -->
-
                 </ion-row>
+              </div>
               </div>
 
               <div *ngFor="let i of getTransactionList | async">
+              <div *ngIf="i.owner == connecterUserEmail">
                 <div *ngIf="i.expirationDate > returnTodayDate()">
                   <ion-row (click)="modifyProductModal(i)" *ngIf="i.expirationDate <= returnInSevenDay()" [ngStyle]="i.expirationDate <= returnInSevenDay() && {'background-color': 'orange', 'color': 'black'}" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
                     <ion-col>{{ i.Name | json }}</ion-col>
                     <ion-col>{{ i.Quantity | json }}</ion-col>
                     <ion-col>{{ i.expirationDate | json }}</ion-col>
                   </ion-row>
-                </div>                
+                </div>              
+              </div>
               </div>
 
               <!-- <div *ngFor="let i of getTransactionList | async">
