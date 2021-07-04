@@ -10,19 +10,35 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <h2>Please select a productor </h2>
   <ion-item>
-    <ion-label>Products :</ion-label>
-    <ion-input type="text" [(ngModel)]="productsList" placeholder=""></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Quantity :</ion-label>
-    <ion-input type="number" [(ngModel)]="orderQuantity" placeholder=""></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-select [(ngModel)]="selectedProd">
+    <ion-select [(ngModel)]="selectedProd" (ionChange)="selectedProdChange()">
       <ion-select-option *ngFor="let productor of productorsList | async">{{ productor.productorName | json }}</ion-select-option>
     </ion-select>  
   </ion-item>
+
+  <ion-row *ngIf="selectedProd">
+    <ion-col></ion-col>
+    <ion-col>Quantity Available</ion-col>
+    <ion-col>Quantity to Buy</ion-col>
+  </ion-row>
+  <div *ngFor="let i of allProductsList | async">
+    <ion-item *ngIf="selectedProd.includes(i.owner)">
+      <ion-col>
+        <ion-label>{{i.Name}}</ion-label>
+        <!-- <ion-checkbox></ion-checkbox> -->
+      </ion-col>
+      <ion-col style="text-align: center;">{{i.Quantity}}</ion-col>
+      <ion-col>
+        <ion-item>
+          <!-- <ion-label>Buy :</ion-label> -->
+          <ion-input id="idOrder" type="number" (ionChange)="add(orderArray, i.Name, i.orderQuantity)" [(ngModel)]="i.orderQuantity" placeholder=""></ion-input>
+        </ion-item>
+      </ion-col>
+      
+    </ion-item>
+  </div>
+
   <br>
   <ion-button expand="block" (click)="order()">Order</ion-button>
 

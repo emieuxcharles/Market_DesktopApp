@@ -16,6 +16,8 @@ export class OrderProductPage implements OnInit {
 
   productorsList: Observable<any[]>;
 
+  allProductsList: Observable<any[]>;
+
   productsList:string;
   orderDate;
 
@@ -25,11 +27,17 @@ export class OrderProductPage implements OnInit {
   orderQuantity:number;
 
   selectedProductor: string = "";
+  test = "";
 
   selectedProd: string;
 
   connecterUserEmail: string;
   connected:boolean;
+
+  arr = [];
+  arrIndex = {};
+
+  orderArray = [];
 
   constructor(public afDB: AngularFireDatabase,public afAuth: AngularFireAuth, private modalController: ModalController, private navParams: NavParams, ) {
     this.afAuth.authState.subscribe(auth => {
@@ -47,6 +55,8 @@ export class OrderProductPage implements OnInit {
 
     this.productorsList = afDB.list('Productors').valueChanges();
 
+    this.allProductsList = afDB.list('Products').valueChanges();
+
     console.log(this.productorsList);
 
 
@@ -55,20 +65,49 @@ export class OrderProductPage implements OnInit {
   ngOnInit() {
   }
 
+  selectedProdChange(){
+    console.log(this.selectedProd);
+    this.test = this.selectedProd;
+  }
+
   order() {
     this.afDB.list('Orders').push({
-      products: this.productsList,
+      products: this.orderArray,
       orderDate: this.orderDate,
       productorName: this.selectedProd.toString(),
-      quantity: this.orderQuantity,
       from: this.connecterUserEmail
     });
 
     this.productsList = '';
     this.orderDate = '';
     this.closeModal();
-    console.log(this.selectedProd);
   }
+  t(q, n:string){
+    var element = document.getElementById('idOrder');
+    console.log("OO : " + element)
+    console.log(q, n);
+  }
+
+  add(arr, n, q) {
+    const { length } = arr;
+    const id = length + 1;
+    const found = arr.some(el => el.product === n);
+    if (!found) arr.push({ id, product: n, quantity: q });
+    else{
+      for (var i in this.orderArray) {
+        if (this.orderArray[i].product == n) {
+          this.orderArray[i].quantity = q;
+           break;
+        }
+      }
+   
+    }
+    console.log(this.orderArray);
+  }
+
+  
+  
+
 
   async closeModal() {
     const onClosedData: string = "Wrapped Up!";

@@ -126,20 +126,25 @@
         
           <ion-card-content>
             <ion-button expand="block" (click)="orderProductModal()">Order Product</ion-button><br>
-            <ion-item>
+            <!-- <ion-item>
               <ion-label>productorName :</ion-label>
               <ion-input type="text" [(ngModel)]="productorName" placeholder=""></ion-input>
             </ion-item>
-            <ion-button expand="block" (click)="addProductor()">addProductor</ion-button><br>
+            <ion-button expand="block" (click)="addProductor()">addProductor</ion-button><br> -->
               <ion-row style="margin-bottom:10px;background-color: rgb(170, 170, 170);padding: 10px;border-radius: 10px;color:black;">
               <ion-col>Order Date</ion-col><ion-col>Products</ion-col><ion-col>Productor name</ion-col>
             </ion-row>
             <ion-grid  style="overflow-x: hidden;overflow-y:scroll;height: 500px;">
-              <ion-row  *ngFor="let order of ordersInventory | async" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
-                <ion-col>{{ order.orderDate | json }}</ion-col>
-                <ion-col>{{ order.products | json }}</ion-col>
-                <ion-col>{{ order.productorName | json }}</ion-col>
-              </ion-row>
+              <div *ngFor="let order of ordersInventory | async">
+                <div *ngIf="order.from == connecterUserEmail">
+                  <ion-row *ngFor="let i of order.products" style="margin-bottom:10px;background-color: black;padding: 10px;border-radius: 10px;">
+                    <ion-col>{{ order.orderDate | json }}</ion-col>
+                    <ion-col>{{ i.product | json }}</ion-col>
+                    <ion-col>{{ order.productorName | json }}</ion-col>
+                  </ion-row>
+                </div>
+                
+              </div>
             </ion-grid>
 
             
